@@ -9,13 +9,14 @@ using UnityEngine;
 
 namespace Snaker.Game.Player
 {
+    //实体
     public class SnakePlayer
     {
         private string LOG_TAG = "SnakePlayer";
         //======================================================================
         private PlayerData m_data = new PlayerData();
-        private SnakeHead m_head;
-        private SnakeTail m_tail;
+        private SnakeHead m_head;//头实体
+        private SnakeTail m_tail;//尾部实体
         private GameObject m_container;
 		private GameContext m_context;
 

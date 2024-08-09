@@ -31,6 +31,7 @@ using System.Collections.Generic;
 
 namespace SGF.Network.FSPLite.Client
 {
+    //FrameSyncProtocol
     public class FSPManager
     {
         public string LOG_TAG = "FSPManager";
@@ -38,7 +39,7 @@ namespace SGF.Network.FSPLite.Client
         private FSPParam m_Param;
         private FSPClient m_Client;
         private FSPFrameController m_FrameCtrl;
-        private DictionaryEx<int, FSPFrame> m_FrameBuffer;
+        private DictionaryEx<int, FSPFrame> m_FrameBuffer; //帧缓存队列，每次客户端执行从里面获取当前帧协议，再执行
         private bool m_IsRunning = false;
 
         private FSPGameState m_GameState = FSPGameState.None;

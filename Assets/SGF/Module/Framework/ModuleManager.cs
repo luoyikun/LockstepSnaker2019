@@ -218,6 +218,7 @@ namespace SGF.Module.Framework
         /// <param name="name"></param>
         public void ShowModule(string name, object arg = null)
         {
+            this.Log($"显示模块{name}");
 			SendMessage(name, "Show", arg);
         }
 

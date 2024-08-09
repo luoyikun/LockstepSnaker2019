@@ -25,12 +25,15 @@
  * 作者：slicol
 */
 
+using UnityEngine;
+
 namespace SGF.Network.FSPLite.Client
 {
+    //用于控制帧播放速度
     public class FSPFrameController
     {
         //缓冲控制
-        private int m_NewestFrameId;
+        private int m_NewestFrameId; //服务器最新下发的帧id
         private int m_BuffSize = 0;
         private bool m_IsInBuffing = false;
         private int m_ClientFrameRateMultiple = 2;
@@ -76,7 +79,7 @@ namespace SGF.Network.FSPLite.Client
             m_NewestFrameId = frameId;
         }
 
-
+        //得到帧速度，这=一次tick要执行多少帧
         public int GetFrameSpeed(int curFrameId)
         {
             int speed = 0;
@@ -150,6 +153,7 @@ namespace SGF.Network.FSPLite.Client
             }
 
             m_IsInSpeedUp = speed > m_DefaultSpeed;
+            Debug.Log($"tick播放{speed}帧");
             return speed;
         }
     }

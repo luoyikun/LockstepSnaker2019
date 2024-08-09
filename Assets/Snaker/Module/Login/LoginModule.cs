@@ -41,8 +41,8 @@ namespace Snaker.Module
         {
             UserManager.Instance.UpdateMainUserData(ud);
 
-            AppConfig.Value.mainUserData = UserManager.Instance.MainUserData;
-            AppConfig.Save();
+            //AppConfig.Value.mainUserData = UserManager.Instance.MainUserData;
+            //AppConfig.Save();
 
             //将登录成功事件通知给整个游戏
             GlobalEvent.onLogin.Invoke(true);

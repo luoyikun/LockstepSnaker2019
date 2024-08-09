@@ -32,6 +32,7 @@ using SGF.Unity;
 
 namespace SGF.Network.FSPLite.Client
 {
+    //网络模块中客户端，负责发送，接受
     public class FSPClient
     {
         //===========================================================

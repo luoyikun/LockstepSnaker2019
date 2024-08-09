@@ -2,6 +2,7 @@
 using UnityEngine;
 namespace Snaker.Game.Entity.Factory
 {
+    //不继承Mono
     public abstract class EntityObject:IRecyclableObject
 	{
         //----------------------------------------------------------------------
@@ -38,6 +39,7 @@ namespace Snaker.Game.Entity.Factory
 
         public string GetRecycleType()
         {
+            //存在反射，最好缓存
             return this.GetType().FullName;
         }
 

@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Snaker.Game.Entity.Snake
 {
+    //蛇节点实体，头，尾都是节点子类
     public class SnakeNode : EntityObject
     {
         //==================================================================
@@ -60,7 +61,7 @@ namespace Snaker.Game.Entity.Snake
         }
 
         //==================================================================
-
+        //递归调用，把后续节点都设置为上个节点的旧位置
         internal void MoveTo(Vector3 pos)
         {
             Vector3 oldPos = m_pos;

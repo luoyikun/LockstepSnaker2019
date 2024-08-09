@@ -31,28 +31,28 @@ namespace Snaker
 
         public static void Init()
         {
-            Debuger.Log("AppConfig", "Init() Path = " + Path);
+            //Debuger.Log("AppConfig", "Init() Path = " + Path);
 
-            byte[] data = FileUtils.ReadFile(Path);
-            if (data != null && data.Length > 0)
-            {
-                AppConfig cfg = (AppConfig)PBSerializer.NDeserialize(data, typeof(AppConfig));
-                if (cfg != null)
-                {
-                    m_Value = cfg;
-                }
-            }
+            //byte[] data = FileUtils.ReadFile(Path);
+            //if (data != null && data.Length > 0)
+            //{
+            //    AppConfig cfg = (AppConfig)PBSerializer.NDeserialize(data, typeof(AppConfig));
+            //    if (cfg != null)
+            //    {
+            //        m_Value = cfg;
+            //    }
+            //}
         }
 
         public static void Save()
         {
-            Debuger.Log("AppConfig", "Save() Value = " + m_Value);
+            //Debuger.Log("AppConfig", "Save() Value = " + m_Value);
 
-            if (m_Value != null)
-            {
-                byte[] data = PBSerializer.NSerialize(m_Value);
-                FileUtils.SaveFile(Path, data);
-            }
+            //if (m_Value != null)
+            //{
+            //    byte[] data = PBSerializer.NSerialize(m_Value);
+            //    FileUtils.SaveFile(Path, data);
+            //}
         }
 
     }

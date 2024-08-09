@@ -54,7 +54,7 @@ namespace SGF
         }
 
         /// <summary>
-        /// 采用线性同余算法产生一个0~1之间的随机小数
+        /// 采用线性同余算法产生一个0~1之间的随机小数,所有值都是固定的，是每次都下发不同的随机种子吗
         /// </summary>
         /// <returns></returns>
         public float Rnd()

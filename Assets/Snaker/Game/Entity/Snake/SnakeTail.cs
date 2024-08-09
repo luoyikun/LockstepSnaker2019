@@ -1,6 +1,7 @@
 ﻿using System;
 namespace Snaker.Game.Entity.Snake
 {
+    //蛇尾节点
     public class SnakeTail : SnakeNode
     {
         private SnakeNode m_prev;

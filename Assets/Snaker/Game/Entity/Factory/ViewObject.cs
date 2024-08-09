@@ -47,6 +47,7 @@ namespace Snaker.Game.Entity.Factory
         {
             try
             {
+                
                 GameObject.Destroy(this.gameObject);
             }
             catch (Exception e)

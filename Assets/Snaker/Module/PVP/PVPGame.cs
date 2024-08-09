@@ -22,9 +22,9 @@ namespace Snaker.Module.PVP
 	public class PVPGame
 	{
 		public string LOG_TAG = "PVPGame";
-
-		private FSPManager m_mgrFSP;
-        private List<PlayerData> m_listPlayerData;
+        
+		private FSPManager m_mgrFSP;//帧同步管理器
+        private List<PlayerData> m_listPlayerData;//全部玩家数据
 		private uint m_mainPlayerId;
 
 		public event Action onMainPlayerDie;
