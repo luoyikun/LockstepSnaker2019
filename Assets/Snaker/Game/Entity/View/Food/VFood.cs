@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Snaker.Game.Entity.View.Food
 {
+    //食物view
     public class VFood:ViewObject
     {
 		[SerializeField]

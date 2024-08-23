@@ -201,7 +201,11 @@ namespace Snaker.Module.PVP
 		{
 			m_mgrFSP.EnterFrame();
 		}
-
+        /// <summary>
+        /// 处理每帧命令
+        /// </summary>
+        /// <param name="frameId"></param>
+        /// <param name="frame"></param>
 		private void OnEnterFrame(int frameId, FSPFrame frame)
 		{
 			GameManager.Instance.EnterFrame(frameId);

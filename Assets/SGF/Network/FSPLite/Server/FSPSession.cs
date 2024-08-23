@@ -32,6 +32,7 @@ using SGF.Network.KCP;
 
 namespace SGF.Network.FSPLite.Server
 {
+    //每个客户端对应的会话,服务器用
     public class FSPSession
     {
         //========================================================================

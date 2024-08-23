@@ -31,22 +31,36 @@ using System.Collections.Generic;
 
 namespace SGF.Network.FSPLite.Client
 {
-    //FrameSyncProtocol
+    //FrameSyncProtocol，帧同步协议
     public class FSPManager
     {
         public string LOG_TAG = "FSPManager";
 
         private FSPParam m_Param;
-        private FSPClient m_Client;
+        private FSPClient m_Client; //clientSocket
         private FSPFrameController m_FrameCtrl;
-        private DictionaryEx<int, FSPFrame> m_FrameBuffer; //帧缓存队列，每次客户端执行从里面获取当前帧协议，再执行
+        private DictionaryEx<int, FSPFrame> m_FrameBuffer; //帧缓存队列，每次客户端执行从里面获取当前帧协议，再执行。如果没找到key，是返回一个空帧数据让程序执行
         private bool m_IsRunning = false;
 
         private FSPGameState m_GameState = FSPGameState.None;
         public FSPGameState GameState { get { return m_GameState; } }
 
-        private int m_CurrentFrameIndex = 0;
-        private int m_ClientLockedFrame = 0;
+        private int m_CurrentFrameIndex = 0; //当前执行的帧idx。客户端发送时，带上。服务器下发时，带的是服务器的帧数，需要进入插入倍数空帧让客户端tick
+        int m_pClientLockedFrame = 0;
+        //客户端锁帧，运动到这帧，客户端不会接着执行
+        private int m_ClientLockedFrame
+        {
+            set {
+                //Debuger.Log($"设置ClientLockedFrame{value}");
+                m_pClientLockedFrame = value;
+            }
+            get
+            {
+                return m_pClientLockedFrame;
+            }
+        }
+            
+             
         private Action<int, FSPFrame> m_FrameListener;
         
         //本地表现
@@ -144,7 +158,7 @@ namespace SGF.Network.FSPLite.Client
         }
 
         /// <summary>
-        /// 由外界驱动
+        /// 由外界驱动,客户端在FixedUpdate
         /// </summary>
         public void EnterFrame()
         {
@@ -155,13 +169,16 @@ namespace SGF.Network.FSPLite.Client
 
             if (!m_Param.useLocal)
             {
+                //客户端接收数据
                 m_Client.EnterFrame();
-
+                //当前帧索引，得到播放速度，此客户端一次tick中要播放多少帧数据
                 int speed = m_FrameCtrl.GetFrameSpeed(m_CurrentFrameIndex);
+                //一次fixUpdate可能播放多个帧
                 while (speed > 0)
                 {
                     if (m_CurrentFrameIndex < m_ClientLockedFrame)
                     {
+                        //如果服务器的后续帧没到达，客户端会停在那里
                         m_CurrentFrameIndex++;
                         FSPFrame frame = m_FrameBuffer[m_CurrentFrameIndex];
                         ExecuteFrame(m_CurrentFrameIndex,frame);
@@ -278,6 +295,7 @@ namespace SGF.Network.FSPLite.Client
             {
                 onRoundBegin(arg);
             }
+            Debuger.Log($"回合开始:m_ClientLockedFrame:{m_ClientLockedFrame}");
         }
 
         public void SendControlStart()
@@ -348,12 +366,13 @@ namespace SGF.Network.FSPLite.Client
                 ExecuteFrame(frame.frameId,frame);
                 return;
             }
-
-            frame.frameId = frame.frameId * m_Param.clientFrameRateMultiple;
+            int oriFrameId = frame.frameId;
+            frame.frameId = frame.frameId * m_Param.clientFrameRateMultiple;//客户端帧idx = 服务器帧idx
             m_ClientLockedFrame = frame.frameId + m_Param.clientFrameRateMultiple - 1;
 
             m_FrameBuffer.Add(frame.frameId, frame);
             m_FrameCtrl.AddFrameId(frame.frameId);
+            //Debuger.Log($"增加服务器帧AddServerFrame，ori:{oriFrameId},frameId:{frame.frameId},ClientLockedFrame:{m_ClientLockedFrame}");
         }
 
 

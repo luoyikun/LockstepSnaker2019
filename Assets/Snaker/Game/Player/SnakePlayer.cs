@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Snaker.Game.Player
 {
-    //实体
+    //玩家，C#类型，数据，多个实体（头，尾，身体节点），每个实体对应一个表现（ViewObject）
     public class SnakePlayer
     {
         private string LOG_TAG = "SnakePlayer";
@@ -80,6 +80,7 @@ namespace Snaker.Game.Player
 
             //放置在出生坐标
             MoveTo(pos);
+            Debuger.Log($"SnakePlayer.Create 创建蛇玩家{PublicFunc.GetObjet2Str(data)}");
         }
 
 
@@ -122,7 +123,7 @@ namespace Snaker.Game.Player
 
 
         //----------------------------------------------------------------------
-
+        //设置位置，即改变头节点位置，改变的是实体的位置
         public void MoveTo(Vector3 pos)
         {
             m_head.MoveTo(pos);
@@ -223,6 +224,7 @@ namespace Snaker.Game.Player
             return false;
         }
 
+        //爆炸，死亡后，关键节点随机变为食物
         private void Blast()
         {
             SnakeNode node = m_head;
@@ -262,14 +264,18 @@ namespace Snaker.Game.Player
             hasHandled = hasHandled || DoVKey_Move(vkey, arg);
         }
 
-
+        /// <summary>
+        /// 玩家进入到当前帧
+        /// </summary>
+        /// <param name="frameIndex"></param>
         public void EnterFrame(int frameIndex)
         {
+            //玩家身上组件进入帧
 			for (int i = 0; i < m_listCompoent.Count; ++i) 
 			{
 				m_listCompoent [i].EnterFrame (frameIndex);
 			}
-
+            //当前帧的移动
             HandleMove();
         }
 
@@ -296,24 +302,42 @@ namespace Snaker.Game.Player
                 default:
                     return false;
             }
-
+            if (m_data.ai == 0)
+            {
+                //Debuger.Log($"帧事件玩家输入改变,id:{Id}");
+            }
             return true;
         }
 
+        /// <summary>
+        /// 处理移动，头节点实体位置+方向*速度
+        /// </summary>
         private void HandleMove()
         {
-            for (int i = 0; i < m_MoveSpeed; i++)
-            {
-                if (m_InputMoveDirection.magnitude > 0)
-                {
-                    m_MoveDirection = m_InputMoveDirection;
-                }
+            
+            //for (int i = 0; i < m_MoveSpeed; i++)
+            //{
+            //    if (m_InputMoveDirection.magnitude > 0)
+            //    {
+            //        m_MoveDirection = m_InputMoveDirection;
+            //    }
 
-                if (m_MoveDirection.magnitude > 0)
-                {
-                    Vector3 pos = m_head.Position() + m_MoveDirection.normalized * 2;
-                    MoveTo(pos);
-                }
+            //    if (m_MoveDirection.magnitude > 0)
+            //    {
+            //        Vector3 pos = m_head.Position() + m_MoveDirection.normalized * 2;
+            //        MoveTo(pos);
+            //    }
+            //}
+
+            if (m_InputMoveDirection.magnitude > 0)
+            {
+                m_MoveDirection = m_InputMoveDirection;
+            }
+
+            if (m_MoveDirection.magnitude > 0)
+            {
+                Vector3 pos = m_head.Position() + m_MoveDirection.normalized * 2 * m_MoveSpeed;
+                MoveTo(pos);
             }
 
         }

@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Snaker.Game.Entity.View.Snake
 {
+    //蛇节点view
     public class VSnakeNode:ViewObject
     {
 		[SerializeField]
@@ -67,7 +68,7 @@ namespace Snaker.Game.Entity.View.Snake
 			if (m_entity != null && m_renderer != null)
             {
 				m_renderer.enabled = m_entity.Data.bodyVisible;
-
+                //根据实体的位置，设置view的位置
 				m_entityPosition = m_entity.Position ();
 				Vector3 pos = m_context.EntityToViewPoint(m_entityPosition);
                 this.transform.localPosition = pos;

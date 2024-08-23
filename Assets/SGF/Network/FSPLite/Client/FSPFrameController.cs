@@ -153,7 +153,7 @@ namespace SGF.Network.FSPLite.Client
             }
 
             m_IsInSpeedUp = speed > m_DefaultSpeed;
-            Debug.Log($"tick播放{speed}帧");
+            //Debug.Log($"tick播放{speed}帧");
             return speed;
         }
     }

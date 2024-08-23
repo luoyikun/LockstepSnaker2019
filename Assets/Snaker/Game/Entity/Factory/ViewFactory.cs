@@ -18,7 +18,7 @@ namespace Snaker.Game.Entity.Factory
         private static Recycler m_recycler;
 
         /// <summary>
-        /// 工厂所实例化的对象列表
+        /// 工厂所实例化的对象列表，player由多个实体节点组成，每个实体节点绑定一个view
         /// </summary>
         private static DictionaryEx<EntityObject, ViewObject> m_mapObject;
 
@@ -63,10 +63,11 @@ namespace Snaker.Game.Entity.Factory
             ViewObject obj = null;
             string recycleType = resPath;
 			bool useRecycler = true;
-
+            //从缓冲池中取，根据资源路径
             obj = m_recycler.Pop(recycleType) as ViewObject;
 			if (obj == null) 
 			{
+                //没找到，从资源路径实例化，并且返回ViewObject
 				useRecycler = false;
 				obj = InstanceViewFromPrefab (recycleType, resDefaultPath);
 			}
@@ -126,7 +127,7 @@ namespace Snaker.Game.Entity.Factory
                     obj.ReleaseInFactory();
 					obj.gameObject.SetActive (false);
 
-                    //将对象加入对象池
+                    //将对象加入对象池，放入的是Mono，但是根据Mono中资源名决定这是哪个type。因为同个FoodView脚本可能挂载到多个不同GameObject上
                     m_recycler.Push(obj);
 
 

@@ -24,6 +24,7 @@ namespace Snaker.Game.Map
 
         /// <summary>
         /// 地图逻辑，每次执行，都是按帧，可以方便记录
+        /// 1.生成ai蛇，2.生成食物
         /// </summary>
         /// <param name="frameIndex"></param>
 		public void EnterFrame(int frameIndex)

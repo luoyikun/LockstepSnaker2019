@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Snaker.Game.Entity.Factory
 {
+    //view基类，继承mono，可回收
     public abstract class ViewObject : MonoBehaviour, IRecyclableObject
     {
         //----------------------------------------------------------------------

@@ -34,6 +34,7 @@ using System.Threading;
 
 namespace SGF.Network.KCP
 {
+    //最底层KCP，接收，发送
     public class KCPSocket
     {
         private static readonly DateTime UTCTimeBegin = new DateTime(1970, 1, 1);

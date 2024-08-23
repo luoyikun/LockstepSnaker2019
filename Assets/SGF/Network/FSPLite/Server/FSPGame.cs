@@ -72,12 +72,14 @@ namespace SGF.Network.FSPLite.Server
         private int m_CurRoundId = 0;
         public int CurrentRoundId { get { return m_CurRoundId; } }
         //---------------------------------------------------------
-        //帧列表
+        //当前帧id,按照66ms一次tick自增。
+        //客户端发给服务器的帧id，服务器不用，而是按照服务器此帧收到客户端操作都收集到服务器此帧中。
+        //服务器发给客服端的帧id，客户端按照帧倍率插入空帧执行
         private int m_CurFrameId = 0;
         public int CurrentFrameId { get { return m_CurFrameId; } }
 
-        //当前帧
-        private FSPFrame m_LockedFrame = new FSPFrame();
+        //当前帧数据
+        private FSPFrame m_LockedFrame = new FSPFrame(); //每次下发给客户端都是同个类对象
 
         //玩家列表
         private List<FSPPlayer> m_ListPlayer = new List<FSPPlayer>();
@@ -92,8 +94,8 @@ namespace SGF.Network.FSPLite.Server
 
         //=========================================================
         //延迟GC缓存
-        public static bool UseDelayGC = false;
-        private List<object> m_ListObjectsForDelayGC = new List<object>(); 
+        //public static bool UseDelayGC = false;
+        //private List<object> m_ListObjectsForDelayGC = new List<object>(); 
 
         //---------------------------------------------------------
         public void Create(FSPParam param)
@@ -118,7 +120,7 @@ namespace SGF.Network.FSPLite.Server
                 player.Dispose();
             }
             m_ListPlayer.Clear();
-            m_ListObjectsForDelayGC.Clear();
+            //m_ListObjectsForDelayGC.Clear();
             GC.Collect();
 			onGameExit = null;
 			onGameEnd = null;
@@ -194,10 +196,10 @@ namespace SGF.Network.FSPLite.Server
         private void OnPlayerReceive(FSPPlayer player, FSPVKey cmd)
         {
             //防止GC
-            if (UseDelayGC)
-            {
-                m_ListObjectsForDelayGC.Add(cmd);
-            }
+            //if (UseDelayGC)
+            //{
+            //    m_ListObjectsForDelayGC.Add(cmd);
+            //}
 
             HandleClientCmd(player, cmd);
         }
@@ -284,6 +286,8 @@ namespace SGF.Network.FSPLite.Server
         {
             cmd.playerId = playerId;
             m_LockedFrame.vkeys.Add(cmd);
+            //服务器是不在服客户端是第几帧发送的
+            PublicFunc.Log($"server增加cmd到当前帧playerId:{playerId}");
         }
 
         protected void AddCmdToCurrentFrame(int vkey, int arg = 0)
@@ -339,6 +343,7 @@ namespace SGF.Network.FSPLite.Server
 
             if (m_LockedFrame.frameId != 0 || !m_LockedFrame.IsEmpty())
             {
+                PublicFunc.Log($"server发送帧{m_LockedFrame.frameId}");
                 //将当前帧扔给Player
                 for (int i = 0; i < m_ListPlayer.Count; i++)
                 {
@@ -356,12 +361,13 @@ namespace SGF.Network.FSPLite.Server
             //0帧每个循环需要额外清除掉再重新统计
             if (m_LockedFrame.frameId == 0)
             {
-                m_LockedFrame = new FSPFrame();
+                m_LockedFrame.vkeys.Clear();
+                //m_LockedFrame = new FSPFrame();
                 //防止GC
-                if (UseDelayGC)
-                {
-                    m_ListObjectsForDelayGC.Add(m_LockedFrame);
-                }
+                //if (UseDelayGC)
+                //{
+                //    m_ListObjectsForDelayGC.Add(m_LockedFrame);
+                //}
             }
 
 
@@ -369,13 +375,14 @@ namespace SGF.Network.FSPLite.Server
             if (m_State == FSPGameState.RoundBegin || m_State == FSPGameState.ControlStart)
             {
                 m_CurFrameId++;
-                m_LockedFrame = new FSPFrame();
+                //帧增加了，并且把操作序列清空
+                m_LockedFrame.vkeys.Clear();
                 m_LockedFrame.frameId = m_CurFrameId;
                 //防止GC
-                if (UseDelayGC)
-                {
-                    m_ListObjectsForDelayGC.Add(m_LockedFrame);
-                }
+                //if (UseDelayGC)
+                //{
+                //    m_ListObjectsForDelayGC.Add(m_LockedFrame);
+                //}
             }
         }
 
@@ -643,7 +650,9 @@ namespace SGF.Network.FSPLite.Server
         //Round处理函数
         private int ClearRound()
         {
-            m_LockedFrame = new FSPFrame();
+            //m_LockedFrame = new FSPFrame();
+            m_LockedFrame.frameId = 0;
+            m_LockedFrame.vkeys.Clear();
             m_CurFrameId = 0;
             
             ResetRoundFlag();

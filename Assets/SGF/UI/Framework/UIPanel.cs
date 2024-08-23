@@ -12,12 +12,12 @@ namespace SGF.UI.Framework
     {
         public virtual void Open(object arg = null)
         {
-            this.Log("Open() arg:{0}", arg);
+            //this.Log("Open() arg:{0}", arg);
         }
 
         public virtual void Close(object arg = null)
         {
-            this.Log("Close() arg:{0}", arg);
+            //this.Log("Close() arg:{0}", arg);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace SGF.UI.Framework
         /// </summary>
         protected virtual void OnClose(object arg = null)
         {
-            this.Log("OnClose()");
+            //this.Log("OnClose()");
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace SGF.UI.Framework
         /// <param name="arg"></param>
         protected virtual void OnOpen(object arg = null)
         {
-            this.Log("OnOpen() ");
+            //this.Log("OnOpen() ");
         }
     }
 }

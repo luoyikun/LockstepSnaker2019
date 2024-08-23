@@ -7,7 +7,9 @@ using UnityEngine;
 
 namespace Snaker.Game.Entity.Snake
 {
-    //蛇节点实体，头，尾都是节点子类
+    //蛇节点实体，头，尾都是节点子类。
+    //实体再控制view
+    //每多少个节点，会分配一个肌肉（view）
     public class SnakeNode : EntityObject
     {
         //==================================================================
@@ -61,7 +63,7 @@ namespace Snaker.Game.Entity.Snake
         }
 
         //==================================================================
-        //递归调用，把后续节点都设置为上个节点的旧位置
+        //递归调用，把后续节点都设置为上个节点的旧位置。所以每次只要设置头节点位置即可
         internal void MoveTo(Vector3 pos)
         {
             Vector3 oldPos = m_pos;
@@ -81,6 +83,10 @@ namespace Snaker.Game.Entity.Snake
             return m_pos; 
         }
 
+        /// <summary>
+        /// 设置下个一个节点，并设置初始位置为当前节点
+        /// </summary>
+        /// <param name="node"></param>
         internal void SetNext(SnakeNode node)
         {
             m_next = node;

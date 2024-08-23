@@ -12,7 +12,7 @@ public class AppMain : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-	    //Debuger.EnableLog = true;
+	    Debuger.EnableLog = true;
 		//Debuger.EnableSave = true;
 		Debuger.Log (Debuger.LogFileDir);
 

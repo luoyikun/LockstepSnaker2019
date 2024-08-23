@@ -181,7 +181,7 @@ namespace SGF.UI.Framework
 
         private void OpenPageWorker(string scene, string page, object arg)
         {
-            Debuger.Log(LOG_TAG, "OpenPageWorker() scene:{0}, page:{1}, arg:{2} ", scene, page, arg);
+            //Debuger.Log(LOG_TAG, "OpenPageWorker() scene:{0}, page:{1}, arg:{2} ", scene, page, arg);
 
             string oldScene = SceneManager.GetActiveScene().name;
 

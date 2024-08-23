@@ -47,7 +47,7 @@ namespace SGF.Network.FSPLite
         [ProtoMember(5)]
         public int serverTimeout = 15000;//ms
         [ProtoMember(6)]
-        public int clientFrameRateMultiple = 2;
+        public int clientFrameRateMultiple = 2;//客户端与服务器帧率的倍数
         [ProtoMember(7)]
         public bool enableSpeedUp = true;
         [ProtoMember(8)]
@@ -105,6 +105,7 @@ namespace SGF.Network.FSPLite
 
     /// <summary>
     /// 为了兼容键盘和轮盘操作，将玩家的操作抽象为【虚拟按键+参数】的【命令】形式：VKey+Arg
+    /// 客户端，服务器共用。客户端每次发一个，服务器每次发这一帧的所有玩家操作列表
     /// </summary>
     [ProtoContract]
     public class FSPVKey
@@ -120,7 +121,7 @@ namespace SGF.Network.FSPLite
         [ProtoMember(2)] public int[] args;
 
         /// <summary>
-        /// S2C  服务器下发PlayerId
+        /// S2C  服务器下发PlayerId,如果服务器下发为0，说明是状态改变帧，游戏开始，游戏结束之类
         /// C2S  客户端上报ClientFrameId
         /// </summary>
         [ProtoMember(3)] public uint playerIdOrClientFrameId;
@@ -151,9 +152,9 @@ namespace SGF.Network.FSPLite
     public class FSPFrame //服务器下发的
     {
         [ProtoMember(1)]
-        public int frameId;
+        public int frameId;//服务器下发的帧id，服务器按照66ms每帧执行
         [ProtoMember(2)]
-        public List<FSPVKey> vkeys = new List<FSPVKey>();
+        public List<FSPVKey> vkeys = new List<FSPVKey>();//一帧中有多个操作，例如多个玩家的操作都在一帧中下发
 
         public bool IsEquals(FSPFrame obj)
         {

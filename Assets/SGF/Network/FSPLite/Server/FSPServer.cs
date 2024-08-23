@@ -33,7 +33,7 @@ using SGF.Network.RPCLite;
 
 namespace SGF.Network.FSPLite.Server
 {
-
+    //服务器通信管理器
     public class FSPServer:Singleton<FSPServer>
     {
         //===========================================================
@@ -424,6 +424,7 @@ namespace SGF.Network.FSPLite.Server
         {
             if (m_IsRunning)
             {
+                //驱动KCP
                 m_GameSocket.Update();
                 m_RoomRPC.RPCTick();
 

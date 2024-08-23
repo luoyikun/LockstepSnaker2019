@@ -179,7 +179,10 @@ namespace Snaker.Game
         }
 
         //===========================================================================
-
+        /// <summary>
+        /// 游戏流程进入到一帧中
+        /// </summary>
+        /// <param name="frameIndex"></param>
         public void EnterFrame(int frameIndex)
         {
             if (!m_isRunning)
@@ -193,17 +196,18 @@ namespace Snaker.Game
             }
             else
             {
+                //设置游戏上下文是进入帧
                 m_context.currentFrameIndex = frameIndex;
             }
-
+            //清理掉无用实体对象
             EntityFactory.ClearReleasedObjects();
-
+            //所有玩家进入当前帧,主要玩家身上组件进入当前帧，玩家移动
             for (int i = 0; i < m_listPlayer.Count; ++i)
             {
                 m_listPlayer[i].EnterFrame(frameIndex);
             }
 
-
+            //每个客户端运算全部玩家情况，撞墙死亡，撞敌人死亡，吃食物
             List<uint> listDiePlayerId = new List<uint>();
 
             for (int i = 0; i < m_listPlayer.Count; i++)
@@ -238,6 +242,7 @@ namespace Snaker.Game
                 }
             }
 
+            //地图逻辑，定时生成食物，ai蛇
             if (m_map != null)
             {
                 m_map.EnterFrame(frameIndex);

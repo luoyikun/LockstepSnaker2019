@@ -71,6 +71,7 @@ namespace Snaker.Game.Entity.Factory
             obj = m_recycler.Pop(type.FullName) as EntityObject;
             if(obj == null)
             {
+                //回收池没有，新建
 				useRecycler = false;
                 obj = new T();
             }

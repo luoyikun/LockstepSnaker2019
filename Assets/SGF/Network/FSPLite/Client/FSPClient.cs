@@ -257,10 +257,10 @@ namespace SGF.Network.FSPLite.Client
                 FSPVKey cmd = m_TempSendData.vkeys[0];//为了避免发送反复被实例化，避免new对象，而是gc
                 cmd.vkey = vkey;
                 cmd.args = new int[] { arg};
-                cmd.clientFrameId = (uint)clientFrameId;
+                cmd.clientFrameId = (uint)clientFrameId;//客户端发送时是带有客户端帧id
                 
                 int len = PBSerializer.NSerialize(m_TempSendData, m_TempSendBuf);
-                
+                Debuger.Log($"客户端发送帧{clientFrameId}");
                 return m_Socket.SendTo(m_TempSendBuf, len, m_HostEndPoint);
             }
             return false;

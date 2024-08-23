@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Snaker.Game.Player.Component
 {
+    /// <summary>
+    /// AI组件
+    /// </summary>
     public class PCSnakeAI:PlayerComponent
     {
         private SnakePlayer m_player;

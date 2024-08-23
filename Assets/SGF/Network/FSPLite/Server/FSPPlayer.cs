@@ -31,6 +31,9 @@ using System.Collections.Generic;
 
 namespace SGF.Network.FSPLite.Server
 {
+    /// <summary>
+    /// 服务器使用的socket
+    /// </summary>
     public class FSPPlayer
     {
         //---------------------------------------------------------

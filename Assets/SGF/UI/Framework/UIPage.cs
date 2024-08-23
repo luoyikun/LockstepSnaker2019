@@ -31,7 +31,7 @@ namespace SGF.UI.Framework
         /// </summary>
         protected void OnEnable()
         {
-            this.Log("OnEnable()");
+            //this.Log("OnEnable()");
             if (m_btnGoBack != null)
             {
                 m_btnGoBack.onClick.AddListener(OnBtnGoBack);
@@ -53,7 +53,7 @@ namespace SGF.UI.Framework
         /// </summary>
         protected void OnDisable()
         {
-            this.Log("OnDisable()");
+            //this.Log("OnDisable()");
 #if UNITY_EDITOR
             if (m_isOpenedOnce)
             {
@@ -86,7 +86,7 @@ namespace SGF.UI.Framework
         /// <param name="arg"></param>
         public sealed override void Open(object arg = null)
         {
-            this.Log("Open()");
+            //this.Log("Open()");
             m_openArg = arg;
             m_isOpenedOnce = false;
 
